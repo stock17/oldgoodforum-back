@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@Table(name="Users")
 public class User {
     private long id;
     private String name;

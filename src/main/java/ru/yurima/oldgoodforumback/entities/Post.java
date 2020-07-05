@@ -6,6 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name="Posts")
 public class Post {
     private long id;
     private String title;
