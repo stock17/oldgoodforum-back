@@ -47,7 +47,7 @@ public class Post {
     }
 
     @Column(name="POST_DATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime getDateTime() {
         return dateTime;
     }

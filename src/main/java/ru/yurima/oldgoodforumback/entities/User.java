@@ -56,7 +56,7 @@ public class User {
     }
 
     @Column(name="AUTHOR_DATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -65,6 +65,7 @@ public class User {
         this.dateTime = dateTime;
     }
 
+    @ElementCollection(targetClass = Topic.class)
     public List<Topic> getTopics() {
         return topics;
     }
@@ -73,6 +74,7 @@ public class User {
         this.topics = topics;
     }
 
+    @ElementCollection(targetClass = Post.class)
     public List<Post> getPosts() {
         return posts;
     }

@@ -46,7 +46,7 @@ public class Topic {
     }
 
     @Column(name="TOPIC_DATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime getDateTime() {
         return dateTime;
     }
