@@ -9,58 +9,58 @@ import java.util.List;
 @Entity
 @Table(name = "Topics")
 public class Topic {
-    private long id;
-    private String title;
-    private User author;
-    private LocalDateTime dateTime;
-    List<Post> posts;
-
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy="increment")
     @Column(name = "TOPIC_ID")
+    private long id;
+
+    @Column(name="TOPIC_TITLE")
+    private String title;
+
+    @Column(name="TOPIC_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime dateTime;
+
+    @ManyToOne
+    @JoinColumn(name="TOPIC_AUTHOR")
+    private User author;
+
+    @OneToMany(mappedBy="topic")
+    List<Post> posts;
+
+
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
-    @Column(name="TOPIC_TITLE")
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @Column(name="TOPIC_AUTHOR")
     public User getAuthor() {
         return author;
     }
-
     public void setAuthor(User author) {
         this.author = author;
     }
 
-    @Column(name="TOPIC_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime getDateTime() {
         return dateTime;
     }
-
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
-    @ManyToOne
-    @Column(name="POST_FK")
     public List<Post> getPosts() {
         return posts;
     }
-
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }

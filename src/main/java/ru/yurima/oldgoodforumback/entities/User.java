@@ -9,76 +9,76 @@ import java.util.List;
 @Entity
 @Table(name="Users")
 public class User {
-    private long id;
-    private String name;
-    private String login;
-    private String password;
-    private LocalDateTime dateTime;
-    List<Topic> topics;
-    List<Post> posts;
-
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name="increment", strategy = "increment")
+    @Column(name="AUTHOR_ID")
+    private long id;
+
+    @Column(name="AUTHOR_NAME")
+    private String name;
+
+    @Column(name="AUTHOR_LOGIN")
+    private String login;
+
+    @Column(name="AUTHOR_PASSWORD")
+    private String password;
+
+    @Column(name="AUTHOR_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime dateTime;
+
+    @OneToMany(mappedBy = "author")
+    List<Topic> topics;
+
+    @OneToMany(mappedBy = "author")
+    List<Post> posts;
+
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
 
-    @Column(name="AUTHOR_NAME")
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    @Column(name="AUTHOR_LOGIN")
     public String getLogin() {
         return login;
     }
-
     public void setLogin(String login) {
         this.login = login;
     }
 
-    @Column(name="AUTHOR_PASSWORD")
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @Column(name="AUTHOR_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
     public LocalDateTime getDateTime() {
         return dateTime;
     }
-
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
-    @ElementCollection(targetClass = Topic.class)
     public List<Topic> getTopics() {
         return topics;
     }
-
     public void setTopics(List<Topic> topics) {
         this.topics = topics;
     }
 
-    @ElementCollection(targetClass = Post.class)
     public List<Post> getPosts() {
         return posts;
     }
-
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
