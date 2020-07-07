@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Topic {
 
     @Column(name="TOPIC_DATE")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime dateTime;
+    private Date dateTime;
 
     @ManyToOne
     @JoinColumn(name="TOPIC_AUTHOR")
@@ -51,10 +52,10 @@ public class Topic {
         this.author = author;
     }
 
-    public LocalDateTime getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 

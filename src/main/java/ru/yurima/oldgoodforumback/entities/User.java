@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,13 +27,22 @@ public class User {
 
     @Column(name="AUTHOR_DATE")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime dateTime;
+    private Date dateTime;
 
     @OneToMany(mappedBy = "author")
     List<Topic> topics;
 
     @OneToMany(mappedBy = "author")
     List<Post> posts;
+
+    public User(){}
+
+    public User(String name, String login, String password) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.dateTime = new Date();
+    }
 
     public long getId() {
         return id;
@@ -62,11 +72,11 @@ public class User {
         this.password = password;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public Date getDateTime() {
+        return new Date(dateTime.getTime());
     }
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTime(Date dateTime) {
+        this.dateTime = new Date(dateTime.getTime());
     }
 
     public List<Topic> getTopics() {
@@ -81,5 +91,10 @@ public class User {
     }
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User id: %d, name: %s, login: %s, password: %s, created: %s", id, name, login, password, dateTime);
     }
 }

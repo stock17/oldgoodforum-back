@@ -3,6 +3,7 @@ package ru.yurima.oldgoodforumback.entities;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name="Posts")
@@ -21,7 +22,7 @@ public class Post {
 
     @Column(name="POST_DATE")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime dateTime;
+    private Date dateTime;
 
     @ManyToOne
     @JoinColumn(name="POST_AUTHOR")
@@ -52,10 +53,10 @@ public class Post {
         this.content = content;
     }
 
-    public LocalDateTime getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 
