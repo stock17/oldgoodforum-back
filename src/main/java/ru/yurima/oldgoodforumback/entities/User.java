@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class User {
     private Date dateTime;
 
     @OneToMany(mappedBy = "author")
-    List<Topic> topics;
+    private List<Topic> topics;
 
     @OneToMany(mappedBy = "author")
-    List<Post> posts;
+    private List<Post> posts;
 
     public User(){}
 
@@ -42,6 +43,8 @@ public class User {
         this.login = login;
         this.password = password;
         this.dateTime = new Date();
+        this.topics = new ArrayList<>();
+        this.posts = new ArrayList<>();
     }
 
     public long getId() {
@@ -91,6 +94,14 @@ public class User {
     }
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public void addTopic(Topic topic){
+        topics.add(topic);
+    }
+
+    public void removeTopic(Topic topic){
+        topics.remove(topic);
     }
 
     @Override

@@ -30,39 +30,37 @@ public class Topic {
     @OneToMany(mappedBy="topic")
     List<Post> posts;
 
+    public Topic () {}
+
+    public Topic(String title, User author) {
+        this.title = title;
+        this.dateTime = new Date();
+        this.author = author;
+        author.addTopic(this);
+    }
 
     public long getId() {
         return id;
-    }
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public User getAuthor() {
         return author;
-    }
-    public void setAuthor(User author) {
-        this.author = author;
     }
 
     public Date getDateTime() {
         return dateTime;
     }
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
-    }
 
     public List<Post> getPosts() {
         return posts;
     }
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+
+    @Override
+    public String toString() {
+        return String.format("Topic title: %s, author: %s, date: %s", title, author.getName(), dateTime);
     }
 }
