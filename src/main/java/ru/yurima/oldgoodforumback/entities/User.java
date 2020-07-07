@@ -104,6 +104,14 @@ public class User {
         topics.remove(topic);
     }
 
+    public void addPost(Post post) {
+        posts.add(post);
+    }
+
+    public void removePost(Post post) {
+        posts.remove(post);
+    }
+
     @Override
     public String toString() {
         return String.format("User id: %d, name: %s, login: %s, password: %s, created: %s", id, name, login, password, dateTime);

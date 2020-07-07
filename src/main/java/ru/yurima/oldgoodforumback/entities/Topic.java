@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class Topic {
         this.dateTime = new Date();
         this.author = author;
         author.addTopic(this);
+        posts = new ArrayList<>();
     }
 
     public long getId() {
@@ -57,6 +59,14 @@ public class Topic {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public void addPost(Post post) {
+        posts.add(post);
+    }
+
+    public void removePost(Post post) {
+        posts.remove(post);
     }
 
     @Override

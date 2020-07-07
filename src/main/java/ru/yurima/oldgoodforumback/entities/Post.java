@@ -14,10 +14,7 @@ public class Post {
     @Column(name="POST_ID")
     private long id;
 
-    @Column(name="POST_TITLE")
-    private String title;
-
-    @Column(name="POST_CONTENT")
+    @Column(name="POST_CONTENT", length=999)
     private String content;
 
     @Column(name="POST_DATE")
@@ -32,18 +29,22 @@ public class Post {
     @JoinColumn(name="POST_TOPIC")
     private Topic topic;
 
+    public Post(){}
+
+    public Post(String content, User author, Topic topic) {
+        this.content = content;
+        this.dateTime = new Date();
+        this.author = author;
+        author.addPost(this);
+        this.topic = topic;
+        topic.addPost(this);
+    }
+
     public long getId() {
         return id;
     }
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {
@@ -72,5 +73,16 @@ public class Post {
     }
     public void setTopic(Topic topic) {
         this.topic = topic;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", dateTime=" + dateTime +
+                ", author=" + author +
+                ", topic=" + topic +
+                '}';
     }
 }
