@@ -28,7 +28,7 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Topic> topics = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")

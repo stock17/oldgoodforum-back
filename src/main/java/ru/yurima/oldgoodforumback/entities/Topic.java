@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Topics")
@@ -47,6 +48,7 @@ public class Topic {
     public String getTitle() {
         return title;
     }
+    public void setTitle(String title) {this.title = title;}
 
     public User getAuthor() {
         return author;
@@ -70,6 +72,27 @@ public class Topic {
 
     @Override
     public String toString() {
-        return String.format("Topic title: %s, author: %s, date: %s", title, author.getName(), dateTime);
+        return "Topic{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", dateTime=" + dateTime +
+                ", author=" + author.getLogin() +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Topic)) return false;
+        Topic topic = (Topic) o;
+        return  Objects.equals(title, topic.title) &&
+                Objects.equals(dateTime, topic.dateTime) &&
+                Objects.equals(author, topic.author);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, dateTime, author);
     }
 }
