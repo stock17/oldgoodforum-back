@@ -1,14 +1,9 @@
 package ru.yurima.oldgoodforumback.users;
 
-import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
-import org.hibernate.query.criteria.internal.CriteriaQueryImpl;
 import ru.yurima.oldgoodforumback.db.HibernateUtil;
 import ru.yurima.oldgoodforumback.entities.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 public class UserServiceImpl implements UserService{
@@ -24,35 +19,53 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void unregister(String login) {
-
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
-
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-
-        em.createQuery("DELETE u FROM User WHERE u.login := " + login);
-
+        em.createQuery("DELETE u FROM User u WHERE u.login = :login").setParameter("login", login);
         tx.commit();
         em.close();
     }
 
     @Override
     public void unregister(long id) {
-
+        EntityManager em = HibernateUtil.getFactory().createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.createQuery("DELETE u FROM User u WHERE u.id = :id").setParameter("id", id);
+        tx.commit();
+        em.close();
     }
 
     @Override
     public User findByLogin(String login) {
-        return null;
+        EntityManager em = HibernateUtil.getFactory().createEntityManager();
+        em.getTransaction().begin();
+        User user = (User) em.createQuery("SELECT u FROM User u WHERE u.login = :login")
+                .setParameter("login", login)
+                .getSingleResult();
+        em.getTransaction().commit();
+        em.close();
+        return user;
     }
 
     @Override
     public User findById(long id) {
-        return null;
+        EntityManager em = HibernateUtil.getFactory().createEntityManager();
+        em.getTransaction().begin();
+        User user = em.find(User.class, id);
+        em.getTransaction().commit();
+        em.close();
+        return user;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        EntityManager em = HibernateUtil.getFactory().createEntityManager();
+        em.getTransaction().begin();
+        List<User> users = em.createQuery("SELECT u FROM User u", User.class).getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return users;
     }
 }
