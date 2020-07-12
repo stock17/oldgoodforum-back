@@ -30,10 +30,10 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Topic> topics;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Post> posts;
 
     public User(){}

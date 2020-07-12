@@ -28,7 +28,7 @@ public class Topic {
     @JoinColumn(name="TOPIC_AUTHOR")
     private User author;
 
-    @OneToMany(mappedBy="topic")
+    @OneToMany(mappedBy="topic", cascade = CascadeType.ALL)
     List<Post> posts;
 
     public Topic () {}

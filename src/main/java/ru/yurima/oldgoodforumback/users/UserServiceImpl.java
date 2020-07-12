@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
     public void unregister(String login) {
 
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
-        em.fi
+
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
