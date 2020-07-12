@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class UserServiceImpl implements UserService{
+public class UserDaoImpl implements UserDao {
     @Override
     public void register(User user) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();

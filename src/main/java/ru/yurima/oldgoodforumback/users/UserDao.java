@@ -4,7 +4,7 @@ import ru.yurima.oldgoodforumback.entities.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserDao {
     public void register(User user);
     public void unregister(String login);
     public void unregister(long id);
