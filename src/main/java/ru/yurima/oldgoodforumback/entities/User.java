@@ -4,9 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name="Users")
@@ -30,11 +28,11 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTime;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    private List<Topic> topics;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = FetchType.EAGER)
+    private List<Topic> topics = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     public User(){}
 
@@ -43,8 +41,6 @@ public class User {
         this.login = login;
         this.password = password;
         this.dateTime = new Date();
-        this.topics = new ArrayList<>();
-        this.posts = new ArrayList<>();
     }
 
     public long getId() {
@@ -114,6 +110,28 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("User id: %d, name: %s, login: %s, password: %s, created: %s", id, name, login, password, dateTime);
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", dateTime=" + dateTime +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return  name.equals(user.name) &&
+                login.equals(user.login) &&
+                password.equals(user.password) &&
+                dateTime.equals(user.dateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, login, password, dateTime);
     }
 }

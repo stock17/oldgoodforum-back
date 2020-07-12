@@ -29,7 +29,7 @@ public class Topic {
     private User author;
 
     @OneToMany(mappedBy="topic", cascade = CascadeType.ALL)
-    List<Post> posts;
+    List<Post> posts = new ArrayList<>();
 
     public Topic () {}
 
@@ -38,7 +38,6 @@ public class Topic {
         this.dateTime = new Date();
         this.author = author;
         author.addTopic(this);
-        posts = new ArrayList<>();
     }
 
     public long getId() {

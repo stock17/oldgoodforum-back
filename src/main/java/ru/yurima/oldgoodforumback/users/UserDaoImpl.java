@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     @Override
-    public void register(User user) {
+    public void save(User user) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
@@ -18,21 +18,25 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void unregister(String login) {
+    public void deleteByLogin(String login) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.createQuery("DELETE u FROM User u WHERE u.login = :login").setParameter("login", login);
+        em.createQuery("DELETE FROM User u WHERE u.login = :login")
+                .setParameter("login", login)
+                .executeUpdate();
         tx.commit();
         em.close();
     }
 
     @Override
-    public void unregister(long id) {
+    public void deleteById(long id) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.createQuery("DELETE u FROM User u WHERE u.id = :id").setParameter("id", id);
+        em.createQuery("DELETE FROM User u WHERE u.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
         tx.commit();
         em.close();
     }
@@ -67,5 +71,14 @@ public class UserDaoImpl implements UserDao {
         em.getTransaction().commit();
         em.close();
         return users;
+    }
+
+    @Override
+    public void clear() {
+        EntityManager em = HibernateUtil.getFactory().createEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("DELETE FROM User u").executeUpdate();
+        em.getTransaction().commit();
+        em.close();
     }
 }
