@@ -34,20 +34,17 @@ public class TopicDaoImplTest {
         topicDao.clear();
         List<Topic> list1 = topicDao.getAllTopics();
         for(Topic t : list1) System.out.println(t);
-
-        int i = 1;
     }
 
     @Test
     public void create() {
         Topic topic = new Topic("Title_create_id", author);
-        topicDao.create(topic);
+        topicDao.save(topic);
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         List<Topic> list = em.createQuery("SELECT t FROM Topic t", Topic.class).getResultList();
         em.close();
         assertEquals(1, list.size());
         assertEquals(topic, list.get(0));
-
     }
 
     @Test

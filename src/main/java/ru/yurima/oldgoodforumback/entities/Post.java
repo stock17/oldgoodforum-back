@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name="Posts")
@@ -50,6 +51,7 @@ public class Post {
     public String getContent() {
         return content;
     }
+
     public void setContent(String content) {
         this.content = content;
     }
@@ -57,20 +59,15 @@ public class Post {
     public Date getDateTime() {
         return dateTime;
     }
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
-    }
 
     public User getAuthor() {
         return author;
-    }
-    public void setAuthor(User author) {
-        this.author = author;
     }
 
     public Topic getTopic() {
         return topic;
     }
+
     public void setTopic(Topic topic) {
         this.topic = topic;
     }
@@ -81,8 +78,24 @@ public class Post {
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", dateTime=" + dateTime +
-                ", author=" + author +
-                ", topic=" + topic +
+                ", author=" + author.getLogin() +
+                ", topic=" + topic.getTitle() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Post)) return false;
+        Post post = (Post) o;
+        return  Objects.equals(content, post.content) &&
+                Objects.equals(dateTime, post.dateTime) &&
+                Objects.equals(author, post.author) &&
+                Objects.equals(topic, post.topic);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(content, dateTime, author, topic);
     }
 }

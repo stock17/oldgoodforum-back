@@ -1,56 +1,46 @@
-package ru.yurima.oldgoodforumback.topics;
+package ru.yurima.oldgoodforumback.posts;
 
+import org.hibernate.Hibernate;
 import ru.yurima.oldgoodforumback.db.HibernateUtil;
-import ru.yurima.oldgoodforumback.entities.Topic;
+import ru.yurima.oldgoodforumback.entities.Post;
+
 import javax.persistence.EntityManager;
-import java.util.List;
 
-public class TopicDaoImpl implements TopicDao{
+public class PostDaoImpl implements PostDao{
     @Override
-    public void save(Topic topic) {
+    public void save(Post post) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         em.getTransaction().begin();
-        em.persist(topic);
+        em.persist(post);
         em.getTransaction().commit();
         em.close();
     }
 
     @Override
-    public Topic getById(long id) {
+    public Post getById(long id) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         em.getTransaction().begin();
-        Topic topic = em.find(Topic.class, id);
+        Post post = em.find(Post.class, id);
         em.getTransaction().commit();
         em.close();
-        return topic;
+        return post;
     }
 
     @Override
-    public List<Topic> getAllTopics() {
+    public void update(Post post) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         em.getTransaction().begin();
-        List<Topic> list = em.createQuery("SELECT t FROM Topic t", Topic.class).getResultList();
-        em.getTransaction().commit();
-        em.close();
-        return list;
-    }
-
-    @Override
-    public void update(Topic topic) {
-        EntityManager em = HibernateUtil.getFactory().createEntityManager();
-        em.getTransaction().begin();
-        em.merge(topic);
+        em.merge(post);
         em.getTransaction().commit();
         em.close();
     }
 
     @Override
-    public void delete(Topic topic) {
+    public void delete(Post post) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         em.getTransaction().begin();
-        em.createQuery("DELETE FROM Topic t WHERE id = :id")
-                .setParameter("id", topic.getId())
-                .executeUpdate();
+        em.createQuery("DELETE FROM Post p WHERE p.id = :id")
+            .setParameter("id", post.getId()).executeUpdate();
         em.getTransaction().commit();
         em.close();
     }
@@ -59,9 +49,8 @@ public class TopicDaoImpl implements TopicDao{
     public void clear() {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         em.getTransaction().begin();
-        em.createQuery("DELETE FROM Topic t").executeUpdate();
+        em.createQuery("DELETE FROM Post p").executeUpdate();
         em.getTransaction().commit();
         em.close();
-
     }
 }
