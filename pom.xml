@@ -46,12 +46,7 @@
             <artifactId>jetty-server</artifactId>
             <version>9.4.31.v20200723</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlets -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlets</artifactId>
-            <version>9.4.31.v20200723</version>
-        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-webapp -->
         <dependency>
@@ -59,6 +54,14 @@
             <artifactId>jetty-webapp</artifactId>
             <version>9.4.31.v20200723</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+
 
 
     </dependencies>
