@@ -31,7 +31,7 @@ public class Post {
 
     public Post(){}
 
-    public Post(String content, User author, Topic topic) {
+    public Post(User author, Topic topic, String content) {
         this.content = content;
         this.created = new Date();
         this.author = author;

@@ -42,7 +42,7 @@ public class PostTest {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        Post post1 = new Post(content, author, topic);
+        Post post1 = new Post(author, topic, content);
 
         em.persist(author);
         em.persist(topic);
