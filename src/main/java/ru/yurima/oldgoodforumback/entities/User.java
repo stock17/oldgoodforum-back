@@ -3,7 +3,6 @@ package ru.yurima.oldgoodforumback.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -12,21 +11,21 @@ public class User {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name="increment", strategy = "increment")
-    @Column(name="AUTHOR_ID")
+    @Column(name="USER_ID")
     private long id;
 
-    @Column(name="AUTHOR_NAME")
+    @Column(name="USER_NAME")
     private String name;
 
-    @Column(name="AUTHOR_LOGIN")
+    @Column(name="USER_LOGIN")
     private String login;
 
-    @Column(name="AUTHOR_PASSWORD")
+    @Column(name="USER_PASSWORD")
     private String password;
 
-    @Column(name="AUTHOR_DATE")
+    @Column(name="USER_REGISTERED")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateTime;
+    private Date registered;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Topic> topics = new ArrayList<>();
@@ -40,7 +39,7 @@ public class User {
         this.name = name;
         this.login = login;
         this.password = password;
-        this.dateTime = new Date();
+        this.registered = new Date();
     }
 
     public long getId() {
@@ -71,11 +70,11 @@ public class User {
         this.password = password;
     }
 
-    public Date getDateTime() {
-        return new Date(dateTime.getTime());
+    public Date getRegistered() {
+        return new Date(registered.getTime());
     }
-    public void setDateTime(Date dateTime) {
-        this.dateTime = new Date(dateTime.getTime());
+    public void setRegistered(Date registered) {
+        this.registered = new Date(registered.getTime());
     }
 
     public List<Topic> getTopics() {
@@ -115,7 +114,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", dateTime=" + dateTime +
+                ", registered=" + registered +
                 '}';
     }
 
@@ -127,11 +126,11 @@ public class User {
         return  name.equals(user.name) &&
                 login.equals(user.login) &&
                 password.equals(user.password) &&
-                dateTime.equals(user.dateTime);
+                registered.equals(user.registered);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, login, password, dateTime);
+        return Objects.hash(name, login, password, registered);
     }
 }
