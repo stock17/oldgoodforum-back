@@ -38,14 +38,16 @@ public class PostRepositoryHibernateImplTest {
 
     @Before
     public void setUp() throws Exception {
-        User author = new User(name, login, password);
+        author = new User(name, login, password);
         userRepository.save(author);
-        Topic topic = new Topic(title, author);
+        topic = new Topic(title, author);
         topicRepository.save(topic);
     }
 
     @After
     public void tearDown() throws Exception {
+        postRepository.deleteAll();
+        topicRepository.deleteAll();
         userRepository.deleteAll();
     }
 

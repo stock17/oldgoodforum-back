@@ -83,8 +83,6 @@ public class Post {
     public void unSetTopic() {
         if (topic != null) topic.removePost(this);
         topic = null;
-
-
     }
 
     @Override

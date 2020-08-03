@@ -31,7 +31,7 @@ public class PostRepositoryHibernateImpl implements PostRepository{
     public List<Post> findAll() {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         em.getTransaction().begin();
-        List<Post> posts = em.createQuery("SELECT Post p FROM Post", Post.class).getResultList();
+        List<Post> posts = em.createQuery("SELECT p FROM Post p", Post.class).getResultList();
         em.getTransaction().commit();
         em.close();
         return posts;
