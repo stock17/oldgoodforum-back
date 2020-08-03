@@ -4,13 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.yurima.oldgoodforumback.entities.User;
-import ru.yurima.oldgoodforumback.repositories.UserRepository;
-import ru.yurima.oldgoodforumback.repositories.UserRepositoryHibernateImpl;
-
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class UserRepositoryHibernateImplTest {
     
@@ -55,6 +51,8 @@ public class UserRepositoryHibernateImplTest {
         Optional<User> optional = userRepository.findByLogin(login);
         assertTrue(optional.isPresent());
         assertEquals(user, optional.get());
+        Optional<User> optional1 = userRepository.findByLogin("NO_SUCH_LOGIN");
+        assertFalse(optional1.isPresent());
     }
 
     @Test

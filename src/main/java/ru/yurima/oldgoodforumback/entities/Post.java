@@ -2,7 +2,6 @@ package ru.yurima.oldgoodforumback.entities;
 
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -18,9 +17,9 @@ public class Post {
     @Column(name="POST_CONTENT", length=999)
     private String content;
 
-    @Column(name="POST_DATE")
+    @Column(name="POST_CREATED")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateTime;
+    private Date created;
 
     @ManyToOne
     @JoinColumn(name="POST_AUTHOR")
@@ -34,7 +33,7 @@ public class Post {
 
     public Post(String content, User author, Topic topic) {
         this.content = content;
-        this.dateTime = new Date();
+        this.created = new Date();
         this.author = author;
         author.addPost(this);
         this.topic = topic;
@@ -51,25 +50,41 @@ public class Post {
     public String getContent() {
         return content;
     }
-
     public void setContent(String content) {
         this.content = content;
     }
 
-    public Date getDateTime() {
-        return dateTime;
+    public Date getCreated() {
+        return created;
     }
 
     public User getAuthor() {
         return author;
     }
 
+    public void setAuthor(User author) {
+        if (author != null) author.removePost(this);
+        this.author = author;
+    }
+
+    public void unSetAuthor() {
+        if (author != null) author.removePost(this);
+        author = null;
+    }
+
     public Topic getTopic() {
         return topic;
     }
-
     public void setTopic(Topic topic) {
+        if (topic != null) topic.removePost(this);
         this.topic = topic;
+    }
+
+    public void unSetTopic() {
+        if (topic != null) topic.removePost(this);
+        topic = null;
+
+
     }
 
     @Override
@@ -77,7 +92,7 @@ public class Post {
         return "Post{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", dateTime=" + dateTime +
+                ", dateTime=" + created +
                 ", author=" + author.getLogin() +
                 ", topic=" + topic.getTitle() +
                 '}';
@@ -89,13 +104,13 @@ public class Post {
         if (!(o instanceof Post)) return false;
         Post post = (Post) o;
         return  Objects.equals(content, post.content) &&
-                Objects.equals(dateTime, post.dateTime) &&
+                Objects.equals(created, post.created) &&
                 Objects.equals(author, post.author) &&
                 Objects.equals(topic, post.topic);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(content, dateTime, author, topic);
+        return Objects.hash(content, created, author, topic);
     }
 }

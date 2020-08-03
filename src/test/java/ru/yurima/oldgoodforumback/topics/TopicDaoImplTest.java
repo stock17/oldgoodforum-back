@@ -113,6 +113,7 @@ public class TopicDaoImplTest {
         em.getTransaction().commit();
         em.close();
 
+        topic.getAuthor().removeTopic(topic);
         topicDao.delete(topic);
         em = HibernateUtil.getFactory().createEntityManager();
         List<Topic> list = em.createQuery("SELECT t FROM Topic t", Topic.class).getResultList();

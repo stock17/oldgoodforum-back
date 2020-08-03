@@ -3,7 +3,6 @@ package ru.yurima.oldgoodforumback.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Topic {
 
     @Column(name="TOPIC_DATE")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateTime;
+    private Date created;
 
     @ManyToOne
     @JoinColumn(name="TOPIC_AUTHOR")
@@ -36,7 +35,7 @@ public class Topic {
 
     public Topic(String title, User author) {
         this.title = title;
-        this.dateTime = new Date();
+        this.created = new Date();
         this.author = author;
         author.addTopic(this);
     }
@@ -54,8 +53,17 @@ public class Topic {
         return author;
     }
 
-    public Date getDateTime() {
-        return dateTime;
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public void unSetAuthor() {
+        if (author != null) author.removeTopic(this);
+        author = null;
+    }
+
+    public Date getCreated() {
+        return created;
     }
 
     public List<Post> getPosts() {
@@ -75,7 +83,7 @@ public class Topic {
         return "Topic{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", dateTime=" + dateTime +
+                ", dateTime=" + created +
                 ", author=" + author.getLogin() +
                 '}';
     }
@@ -86,13 +94,13 @@ public class Topic {
         if (!(o instanceof Topic)) return false;
         Topic topic = (Topic) o;
         return  Objects.equals(title, topic.title) &&
-                Objects.equals(dateTime, topic.dateTime) &&
+                Objects.equals(created, topic.created) &&
                 Objects.equals(author, topic.author);
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, dateTime, author);
+        return Objects.hash(title, created, author);
     }
 }

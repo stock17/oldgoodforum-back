@@ -5,6 +5,7 @@ import ru.yurima.oldgoodforumback.entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +34,18 @@ public class UserRepositoryHibernateImpl implements UserRepository {
     public Optional<User> findByLogin(String login) {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         em.getTransaction().begin();
+        try {
         User user = (User) em.createQuery("SELECT u FROM User u WHERE u.login = :login")
                 .setParameter("login", login)
                 .getSingleResult();
-        em.getTransaction().commit();
-        em.close();
-        return Optional.ofNullable(user);
+            return Optional.ofNullable(user);
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            em.getTransaction().commit();
+            em.close();
+        }
     }
 
     @Override
@@ -67,9 +74,8 @@ public class UserRepositoryHibernateImpl implements UserRepository {
         EntityManager em = HibernateUtil.getFactory().createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.createQuery("DELETE FROM User u WHERE u.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
+        User deletedUser = em.find(User.class, id);
+        em.remove(deletedUser);
         tx.commit();
         em.close();
     }
