@@ -1,5 +1,8 @@
 package ru.yurima.oldgoodforumback.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Date;
@@ -7,6 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="Posts")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Post {
     @Id
     @GeneratedValue(generator = "increment")
@@ -23,6 +27,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name="POST_AUTHOR")
+    @JsonBackReference
     private User author;
 
     @ManyToOne

@@ -1,5 +1,8 @@
 package ru.yurima.oldgoodforumback.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -28,9 +31,11 @@ public class User {
     private Date registered;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    @JsonBackReference
     private List<Topic> topics = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    @JsonBackReference
     private List<Post> posts = new ArrayList<>();
 
     public User(){}

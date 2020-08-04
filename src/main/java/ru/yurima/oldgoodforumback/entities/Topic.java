@@ -1,5 +1,8 @@
 package ru.yurima.oldgoodforumback.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,6 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Topics")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Topic {
     @Id
     @GeneratedValue(generator="increment")
@@ -26,9 +30,11 @@ public class Topic {
 
     @ManyToOne
     @JoinColumn(name="TOPIC_AUTHOR")
+    @JsonManagedReference
     private User author;
 
     @OneToMany(mappedBy="topic", cascade = CascadeType.ALL)
+    @JsonManagedReference
     List<Post> posts = new ArrayList<>();
 
     public Topic () {}
