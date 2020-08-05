@@ -1,5 +1,6 @@
 package ru.yurima.oldgoodforumback.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -34,7 +35,7 @@ public class Topic {
     private User author;
 
     @OneToMany(mappedBy="topic", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     List<Post> posts = new ArrayList<>();
 
     public Topic () {}

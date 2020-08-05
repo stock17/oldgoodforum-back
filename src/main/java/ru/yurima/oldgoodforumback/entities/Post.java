@@ -2,6 +2,7 @@ package ru.yurima.oldgoodforumback.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
@@ -27,7 +28,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name="POST_AUTHOR")
-    @JsonBackReference
+    @JsonManagedReference
     private User author;
 
     @ManyToOne
