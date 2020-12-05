@@ -1,64 +1,72 @@
 package ru.yurima.oldgoodforumback.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="Users")
 public class User {
+
+    /**
+     * Identifier
+     */
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name="increment", strategy = "increment")
-    @Column(name="USER_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private long id;
 
-    @Column(name="USER_NAME")
-    private String name;
+    /**
+     * Hibernate service field
+     */
+    @Version
+    private Integer version;
 
-    @Column(name="USER_LOGIN")
+    /**
+     * Login
+     */
+    @Column(name="login", nullable = false, length = 64)
     private String login;
 
-    @Column(name="USER_PASSWORD")
+    /**
+     * Password
+     */
+    @Column(name="password", nullable = false, length = 64)
     private String password;
 
-    @Column(name="USER_REGISTERED")
-    @Temporal(TemporalType.TIMESTAMP)
+    /**
+     * Registration date and time
+     */
+    @Column(name="registered", nullable = false)
     private Date registered;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    @JsonBackReference
+    /**
+     * Topics
+     */
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "author")
     private List<Topic> topics = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    @JsonBackReference
+    /**
+     * Posts
+     */
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "author")
     private List<Post> posts = new ArrayList<>();
-
-    public User(){}
-
-    public User(String name, String login, String password) {
-        this.name = name;
-        this.login = login;
-        this.password = password;
-        this.registered = new Date();
-    }
 
     public long getId() {
         return id;
     }
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLogin() {
@@ -116,7 +124,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", registered=" + registered +
@@ -128,14 +135,13 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return  name.equals(user.name) &&
-                login.equals(user.login) &&
+        return  login.equals(user.login) &&
                 password.equals(user.password) &&
                 registered.equals(user.registered);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, login, password, registered);
+        return Objects.hash(login, password, registered);
     }
 }

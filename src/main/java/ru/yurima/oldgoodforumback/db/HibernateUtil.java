@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 public class HibernateUtil {
 
     private static EntityManagerFactory factory;
-    private static final String unitName = "ru.yurima.oldgoodforumback.entities";
+    private static final String unitName = "forum";
 
     private HibernateUtil(){}
 

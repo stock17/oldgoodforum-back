@@ -1,51 +1,68 @@
 package ru.yurima.oldgoodforumback.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static java.time.LocalDateTime.now;
+
 @Entity
 @Table(name = "Topics")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Topic {
+
+    /**
+     * Identifier
+     */
     @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy="increment")
-    @Column(name = "TOPIC_ID")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
-    @Column(name="TOPIC_TITLE")
+    /**
+     * Hibernate service field
+     */
+    @Version
+    private Integer version;
+
+    /**
+     * Topic title
+     */
+    @Column(name="title", nullable = false, length = 64)
     private String title;
 
-    @Column(name="TOPIC_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
+    /**
+     * Timestamp
+     */
+    @Column(name="created", nullable = false)
+    private LocalDateTime created;
 
+    /**
+     * Author
+      */
     @ManyToOne
-    @JoinColumn(name="TOPIC_AUTHOR")
-    @JsonManagedReference
+    @JoinColumn(name="user_id", nullable = false)
     private User author;
 
+    /**
+     * Posts
+     */
     @OneToMany(mappedBy="topic", cascade = CascadeType.ALL)
-    @JsonBackReference
     List<Post> posts = new ArrayList<>();
-
-    public Topic () {}
-
-    public Topic(String title, User author) {
-        this.title = title;
-        this.created = new Date();
-        this.author = author;
-        author.addTopic(this);
-    }
 
     public long getId() {
         return id;
@@ -61,15 +78,13 @@ public class Topic {
     }
 
     public void setAuthor(User author) {
+        if (author != null) {
+            author.getTopics().remove(this);
+        }
         this.author = author;
     }
 
-    public void unSetAuthor() {
-        if (author != null) author.removeTopic(this);
-        author = null;
-    }
-
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
@@ -79,10 +94,12 @@ public class Topic {
 
     public void addPost(Post post) {
         posts.add(post);
+        post.setTopic(this);
     }
 
     public void removePost(Post post) {
         posts.remove(post);
+        post.setTopic(null);
     }
 
     @Override
@@ -103,7 +120,6 @@ public class Topic {
         return  Objects.equals(title, topic.title) &&
                 Objects.equals(created, topic.created) &&
                 Objects.equals(author, topic.author);
-
     }
 
     @Override

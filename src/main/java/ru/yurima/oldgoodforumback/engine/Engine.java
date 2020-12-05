@@ -6,12 +6,16 @@ import org.eclipse.jetty.server.handler.HandlerList;
 
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import ru.yurima.oldgoodforumback.db.HibernateUtil;
 import ru.yurima.oldgoodforumback.entities.Post;
 import ru.yurima.oldgoodforumback.entities.Topic;
 import ru.yurima.oldgoodforumback.entities.User;
 import ru.yurima.oldgoodforumback.repositories.*;
 import ru.yurima.oldgoodforumback.services.DataService;
 import ru.yurima.oldgoodforumback.servlets.MainServlet;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class Engine {
     UserRepository userRepository = new UserRepositoryHibernateImpl();
@@ -39,7 +43,9 @@ public class Engine {
     }
 
     private void init() {
-        User author1 = new User("username1", "userlogin1", "userpass1");
+        final EntityManagerFactory factory = HibernateUtil.getFactory();
+//        factory.createEntityManager().persist(new User("1", "2"));
+        /*User author1 = new User("username1", "userlogin1", "userpass1");
         User author2 = new User("username2", "userlogin2", "userpass2");
         userRepository.save(author1);
         userRepository.save(author2);
@@ -55,7 +61,7 @@ public class Engine {
         Post post3 = new Post(author1, topic2, "Post content3");
         postRepository.save(post3);
         Post post4 = new Post(author2, topic2, "Post content1");
-        postRepository.save(post4);
+        postRepository.save(post4);*/
     }
 
 
